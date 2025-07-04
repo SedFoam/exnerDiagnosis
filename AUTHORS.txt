@@ -1,0 +1,8 @@
+AUTHORS
+
+ * Cyrille Bonamy (LEGI UGA/GINP/CNRS UMR 5519 - Grenoble - France)
+   cyrille.bonamy (A) univ-grenoble-alpes.fr
+ * Julien Chauchat (LEGI UGA/GINP/CNRS UMR 5519 - Grenoble - France)
+   julien.chauchat (A) univ-grenoble-alpes.fr
+ * Alban Gilletta (LEGI UGA/GINP/CNRS UMR 5519 - Grenoble - France)
+   alban.gilletta-de-saint-joseph (A) univ-grenoble-alpes.fr
