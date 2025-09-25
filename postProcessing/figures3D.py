@@ -147,24 +147,30 @@ fignum1 = plt.figure(num=1,figsize=(12,15),dpi=300)
 ax1 = fignum1.add_subplot(111)
 plt.xlim(-3e-5,0e-5) 
 plt.ylim(-3e-5,0e-5)
-plt.xlabel(r'\textcircled{1} Bed evolution (m$^{3}$ s$^{-1}$)',fontsize = '12') 
-plt.ylabel(r'-(\textcircled{2} Storage evolution+\textcircled{3} Lateral flux+\textcircled{4} Bed flux+\textcircled{5} Top flux) (m$^{3}$ s$^{-1}$)', fontsize = '12') 
+plt.xlabel(r'\textcircled{1} (m$^{3}$ s$^{-1}$)',fontsize = '20')
+plt.ylabel(r'-(\textcircled{2} + \textcircled{3} + \textcircled{4} + \textcircled{5}) (m$^{3}$ s$^{-1}$)', fontsize = '20') 
+plt.tick_params(axis='x', labelsize=20)
+plt.tick_params(axis='y', labelsize=20)
 plt.grid()
 
 fignum2 = plt.figure(num=2,figsize=(12,15),dpi=300)
 ax2 = fignum2.add_subplot(111)
 plt.xlim(0,20)
 plt.ylim(-2.5e-5,2.5e-5)
-plt.xlabel(r'Time (s)',fontsize = '12')
-plt.ylabel(r'Volume evolution (m$^{3}$ s$^{-1}$)', fontsize = '12')
+plt.xlabel(r'Time (s)',fontsize = '20')
+plt.ylabel(r'Volume evolution (m$^{3}$ s$^{-1}$)', fontsize = '20')
+plt.tick_params(axis='x', labelsize=20)
+plt.tick_params(axis='y', labelsize=20)
 plt.grid()
 
 fignum3 = plt.figure(num=3,figsize=(12,15),dpi=300)
 ax3 = fignum3.add_subplot(111)
 plt.xlim(0,20)
 plt.ylim(-1e-5,1e-5)
-plt.xlabel(r'Time (s)',fontsize = '12')
-plt.ylabel(r'Residual (m$^{3}$ s$^{-1}$)', fontsize = '12')
+plt.xlabel(r'Time (s)',fontsize = '20')
+plt.ylabel(r'Residual (m$^{3}$ s$^{-1}$)', fontsize = '20')
+plt.tick_params(axis='x', labelsize=20)
+plt.tick_params(axis='y', labelsize=20)
 plt.grid()
 ax3_0 = ax3.inset_axes([0.55,0.05,0.4,0.35])
 ax3_0.axis([0, 20, -3.5e2, 6e1])
@@ -175,8 +181,10 @@ fignum4 = plt.figure(num=4,figsize=(12,15),dpi=300)
 ax4 = fignum4.add_subplot(111)
 plt.xlim(0,20)
 plt.ylim(-2.5e-5,2.5e-5)
-plt.xlabel(r'Time (s)',fontsize = '12')
-plt.ylabel(r'Volume evolution (m$^{3}$ s$^{-1}$)', fontsize = '12')
+plt.xlabel(r'Time (s)',fontsize = '20')
+plt.ylabel(r'Volume evolution (m$^{3}$ s$^{-1}$)', fontsize = '20')
+plt.tick_params(axis='x', labelsize=20)
+plt.tick_params(axis='y', labelsize=20)
 plt.grid()
 
 #
@@ -193,8 +201,9 @@ ax1.plot(np.linspace(-10,10,100),np.linspace(-10,10,100),'--k',label ='y=x')
 ax1.plot(np.linspace(-20,20,10),np.linspace(0,0,10),'-k', lw = 1)
 ax1.plot(np.linspace(0,0,10),np.linspace(-20,20,10),'-k', lw = 1)
 cbar1 = plt.colorbar(sc1,ax=ax1)
-cbar1.set_label(r'Time (s)',fontsize= '12')
-ax1.legend(prop={"size": 12})
+cbar1.ax.tick_params(labelsize=20)
+cbar1.set_label(r'Time (s)',fontsize= '20')
+ax1.legend(prop={"size": 17})
 
 #
 # FIGURE 2
@@ -207,7 +216,7 @@ ax2.plot(simu4.time[:-1], simu4.intSlat_PindS, color = 'g', label = r' \textcirc
 ax2.plot(simu4.time[:-1], simu4.intS_PindS + simu4.intS2_PindS + simu4.intS3_PindS, color = 'm', label = r' \textcircled{4} Bed flux')
 ax2.plot(simu4.time[:-1], simu4.intStop_PindS, color = 'c', label = r' \textcircled{5} Top flux')
 ax2.plot(simu4.time[:-1], simu4.phi_dzbed_sur_dt + simu4.intdVolPhi_sur_dt + simu4.intSlat_PindS + simu4.intS_PindS + simu4.intS2_PindS + simu4.intS3_PindS + simu4.intStop_PindS, color = 'r', label = r'\textcircled{1}+\textcircled{2}+\textcircled{3}+\textcircled{4}+\textcircled{5}')
-ax2.legend(prop={"size": 12})
+ax2.legend(prop={"size": 17}, ncol = 2)
 
 #
 # FIGURE 3
@@ -219,7 +228,7 @@ ax3.plot(simu2.time[:-1], simu2.phi_dzbed_sur_dt + simu2.intdVolPhi_sur_dt + sim
 ax3.plot(simu3.time[:-1], simu3.phi_dzbed_sur_dt + simu3.intdVolPhi_sur_dt + simu3.intSlat_PindS + simu3.intS_PindS + simu3.intS2_PindS + simu3.intS3_PindS + simu3.intStop_PindS, color = 'g', label = 'M3' )
 ax3.plot(simu4.time[:-1], simu4.phi_dzbed_sur_dt + simu4.intdVolPhi_sur_dt + simu4.intSlat_PindS + simu4.intS_PindS + simu4.intS2_PindS + simu4.intS3_PindS + simu4.intStop_PindS, color = 'm', label = 'M4' )
 ax3.plot(simu5.time[:-1], simu5.phi_dzbed_sur_dt + simu5.intdVolPhi_sur_dt + simu5.intSlat_PindS + simu5.intS_PindS + simu5.intS2_PindS + simu5.intS3_PindS + simu5.intStop_PindS, color = 'c', label = 'M5' )
-ax3.legend(prop={"size": 12})
+ax3.legend(prop={"size": 17})
 
 ax3_0.plot(simu1.time[:-1], (simu1.phi_dzbed_sur_dt + simu1.intdVolPhi_sur_dt + simu1.intSlat_PindS + simu1.intS_PindS + simu1.intS2_PindS + simu1.intS3_PindS + simu1.intStop_PindS)/simu1.phi_dzbed_sur_dt*100, color = 'r' )
 ax3_0.plot(simu2.time[:-1], (simu2.phi_dzbed_sur_dt + simu2.intdVolPhi_sur_dt + simu2.intSlat_PindS + simu2.intS_PindS + simu2.intS2_PindS + simu2.intS3_PindS + simu2.intStop_PindS)/simu2.phi_dzbed_sur_dt*100, color = 'b' )
@@ -238,22 +247,22 @@ ax4.plot(simu4.time[:-1], simu4.intSlatright_PindS, color = 'g', ls = ':', label
 ax4.plot(simu4.time[:-1], simu4.intS_PindS, color = 'm', ls = '--', label = r' \textcircled{4a} Vertical bed flux')
 ax4.plot(simu4.time[:-1], simu4.intS2_PindS, color = 'm', ls = '-.',label = r' \textcircled{4b} Longitudinal bed flux')
 ax4.plot(simu4.time[:-1], simu4.intS3_PindS, color = 'm', ls = ':',label = r' \textcircled{4c} Spanwise bed flux')
-ax4.legend(prop={"size": 12})
+ax4.legend(prop={"size": 17})
 
 for i in plt.get_fignums():
     if i == 1:
         plt.figure(i).set_size_inches(10,8)
-        plt.figure(i).savefig('Figure/3D/'+'massBalance3D_60_top'+'.eps', 
+        plt.figure(i).savefig('Figures/3D/'+'massBalance3D'+'.eps', 
                 facecolor='w', edgecolor='w', dpi=300, format='eps')
     if i == 2:
         plt.figure(i).set_size_inches(10,8)
-        plt.figure(i).savefig('Figure/3D/'+'contrib3D_60_top_'+caseM4+'.eps', 
+        plt.figure(i).savefig('Figures/3D/'+'contrib3D_60_'+caseM4+'.eps', 
                 facecolor='w', edgecolor='w', dpi=300, format='eps')
     if i == 3:
         plt.figure(i).set_size_inches(10,8)
-        plt.figure(i).savefig('Figure/3D/'+'residual3D_60_top'+'.eps', 
+        plt.figure(i).savefig('Figures/3D/'+'residual3D_60'+'.eps', 
                 facecolor='w', edgecolor='w', dpi=300, format='eps')
     if i == 4:
         plt.figure(i).set_size_inches(10,8)
-        plt.figure(i).savefig('Figure/3D/'+'bedLatFlux_60_top_'+caseM4+'.eps', 
+        plt.figure(i).savefig('Figures/3D/'+'bedLatFlux_60_'+caseM4+'.eps', 
                 facecolor='w', edgecolor='w', dpi=300, format='eps') 

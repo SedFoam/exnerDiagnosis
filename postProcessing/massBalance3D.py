@@ -188,7 +188,7 @@ class ThreedimSqrsimu(object):
             sys.exit(0)
         output = proc.stdout.read()
         tread = output.decode().rstrip().split("\n")
-        if len(tread) != 0 :
+        if len(tread) != 1 :
             tread= tread[:80]
             dt = float(tread[1])-float(tread[0])
             Nt = len(tread)
@@ -359,19 +359,19 @@ class ThreedimSqrsimu(object):
             for t in tqdm(self.tread):
                 k = k + 1
                 self.time[k] = float(t)
-            hf = h5py.File(self.solsav+'/read_massBalance'+str(self.asint).replace('.','p')+'.h5', 'r')
-            intVoldPhi_sur_dt = np.array(hf.get('intVoldPhi_sur_dt'))
-            phi_dzbed_sur_dt = np.array(hf.get('phi_dzbed_sur_dt'))
-            intdVolPhi_sur_dt = np.array(hf.get('intdVolPhi_sur_dt'))
-            intS_PindS = np.array(hf.get('intS_PindS'))
-            intS2_PindS = np.array(hf.get('intS2_PindS'))
-            intS3_PindS = np.array(hf.get('intS3_PindS'))
-            intStop_PindS = np.array(hf.get('intStop_PindS'))
-            intSlat_PindS = np.array(hf.get('intSlat_PindS'))
-            intSlatleft_PindS = np.array(hf.get('intSlatleft_PindS'))
-            intSlatright_PindS = np.array(hf.get('intSlatright_PindS'))
-            intSlatin_PindS = np.array(hf.get('intSlatin_PindS'))
-            intSlatout_PindS = np.array(hf.get('intSlatout_PindS'))
+            with h5py.File(self.solsav+'/read_massBalance'+str(self.asint).replace('.','p')+'.h5', 'r') as hf:
+                intVoldPhi_sur_dt = np.array(hf.get('intVoldPhi_sur_dt'))
+                phi_dzbed_sur_dt = np.array(hf.get('phi_dzbed_sur_dt'))
+                intdVolPhi_sur_dt = np.array(hf.get('intdVolPhi_sur_dt'))
+                intS_PindS = np.array(hf.get('intS_PindS'))
+                intS2_PindS = np.array(hf.get('intS2_PindS'))
+                intS3_PindS = np.array(hf.get('intS3_PindS'))
+                intStop_PindS = np.array(hf.get('intStop_PindS'))
+                intSlat_PindS = np.array(hf.get('intSlat_PindS'))
+                intSlatleft_PindS = np.array(hf.get('intSlatleft_PindS'))
+                intSlatright_PindS = np.array(hf.get('intSlatright_PindS'))
+                intSlatin_PindS = np.array(hf.get('intSlatin_PindS'))
+                intSlatout_PindS = np.array(hf.get('intSlatout_PindS'))
 
         # Forward [:-1] Backward [1:] for temporal derivative
         self.phi_dzbed_sur_dt = phi_dzbed_sur_dt[:-1]           # term 1 : bed evolution

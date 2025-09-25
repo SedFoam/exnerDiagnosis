@@ -77,7 +77,7 @@ class Onedimsimu(object):
             sys.exit(0)
         output = proc.stdout.read()
         tread = output.decode().rstrip().split("\n")
-        if len(tread) != 0 :
+        if len(tread) != 1 :
             dt = float(tread[1])-float(tread[0])
             Nt = len(tread)
         else :
@@ -98,7 +98,7 @@ class Onedimsimu(object):
         k = -1
         if not read_result:
             alpha = np.zeros((self.Ny, self.Nt))
-            aUa = np.zeros((3, self.Ny,  self.Nt))
+            Ua = np.zeros((3, self.Ny,  self.Nt))
             zbed, intVolPhi, phi_dzbed_sur_dt, intdVolPhi_sur_dt, intS_PindS, intStop_PindS = np.zeros((6, self.Nt))
             
             k = -1
@@ -106,7 +106,7 @@ class Onedimsimu(object):
                 print("Reading time: %s s" % t)
                 k = k + 1
                 alpha[:, k] = fluidfoam.readscalar(self.sol, t, "alpha.a")
-                aUa[:, :, k] = fluidfoam.readvector(self.sol, t, "alphaUa")
+                Ua[:, :, k] = fluidfoam.readvector(self.sol, t, "U.a")
                 self.time[k] = float(t)
             
             for i in range(self.Nt):
@@ -127,8 +127,8 @@ class Onedimsimu(object):
                     intS_PindS[i] = 0
                 else :
                     phi_dzbed_sur_dt[i] = 0.5*(alpha[bedcondi[0][0],i]+alpha[bedcondi[0][0]-1,i])*dzbed_sur_dt[i]*self.Sbh
-                    intS_PindS[i] = -0.5*(aUa[1, bedcondi[0][0],i]+aUa[1, bedcondi[0][0]-1,i])*self.Sbh
-            intStop_PindS[i] = intStop_PindS[i] + aUa[1, -1, i]*self.Sbh
+                    intS_PindS[i] = -0.5*(alpha[bedcondi[0][0],i]+alpha[bedcondi[0][0]-1,i])*0.5*(Ua[1, bedcondi[0][0],i]+Ua[1, bedcondi[0][0]-1,i])*self.Sbh
+            intStop_PindS[i] = intStop_PindS[i] + alpha[-1,i]*Ua[1, -1, i]*self.Sbh
 
             hf = h5py.File(self.solsav+'/read_massBalance'+str(self.asint).replace('.','p')+'.h5', 'w')
             hf.create_dataset('intdVolPhi_sur_dt',data=intdVolPhi_sur_dt)
@@ -141,11 +141,11 @@ class Onedimsimu(object):
             for t in tqdm(self.tread):
                 k = k + 1
                 self.time[k] = float(t)
-            hf = h5py.File(self.solsav+'/read_massBalance'+str(self.asint).replace('.','p')+'.h5', 'r')
-            intdVolPhi_sur_dt = np.array(hf.get('intdVolPhi_sur_dt'))
-            phi_dzbed_sur_dt = np.array(hf.get('phi_dzbed_sur_dt'))
-            intS_PindS = np.array(hf.get('intS_PindS'))
-            intStop_PindS = np.array(hf.get('intStop_PindS'))
+            with h5py.File(self.solsav+'/read_massBalance'+str(self.asint).replace('.','p')+'.h5', 'r') as hf:
+                intdVolPhi_sur_dt = np.array(hf.get('intdVolPhi_sur_dt'))
+                phi_dzbed_sur_dt = np.array(hf.get('phi_dzbed_sur_dt'))
+                intS_PindS = np.array(hf.get('intS_PindS'))
+                intStop_PindS = np.array(hf.get('intStop_PindS'))
         
         # Forward [:-1] Backward [1:] for temporal derivative        
         self.phi_dzbed_sur_dt = phi_dzbed_sur_dt[:-1]           # term 1 : bed evolution
